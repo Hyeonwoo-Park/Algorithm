@@ -14,10 +14,11 @@ int cal(long long number){
 }
 
 int main() {
-	  long long a,b,c,d;
+	
+    long long a,b,c,d;
     int num = 0;
     long long answer = 0;
-	  cin >> a >> b >> c >> d;
+    cin >> a >> b >> c >> d;
   
     num = cal(b);
     answer = (pow(10,num)*a) + b;
@@ -26,5 +27,5 @@ int main() {
     
     cout << answer;
     
-	  return 0;
+    return 0;
 }
