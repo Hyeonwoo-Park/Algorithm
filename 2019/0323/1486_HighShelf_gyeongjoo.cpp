@@ -9,6 +9,7 @@
 #include <iostream>
 #include <algorithm>
 #include <math.h>
+#define MAX 1100000
 
 using namespace std;
 
@@ -16,7 +17,8 @@ int B;  //선반 높이
 int N;  //점원 수
 int H[21];  //점원 키 정보. N<=20. H[0]은 안쓰려고
 int minimum_height=100001;
-int d[21][100000000];
+
+int d[21][MAX];
 
 int main(int argc, const char * argv[]) {
     
@@ -36,7 +38,6 @@ int main(int argc, const char * argv[]) {
         cout << minimum_height-B << '\n';
         return 0;
     }
-    
     
     
     d[0][0]=0;
