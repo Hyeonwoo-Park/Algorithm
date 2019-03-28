@@ -1,19 +1,17 @@
+//////교훈 : 배열을 사랑하자
 #include <iostream>
-#include <vector>
 #include <string>
 #include <cstring>
-#include <algorithm>
 
 using namespace std;
 
-vector<int> tile[20];
-vector<bool> flag[20];
-vector<pair<int, int>> tilePosition[20];
+int tile[20][20];
+bool flag[20][20];
 
 void up(int N) {
 	for (int j = 0; j < N; j++) for (int i = 0; i < N; i++) {
-		int x = tilePosition[i][j].first;     //x=i
-		int y = tilePosition[i][j].second;    //y=j
+		int x = i; 
+		int y = j; 
 		int nx = x - 1;
 		int ny = y;
 
@@ -53,8 +51,8 @@ void up(int N) {
 void down(int N) {
 	
 	for (int j = 0; j < N; j++) for (int i = N - 1; i >= 0; i--) {
-		int x = tilePosition[i][j].first;     //x=i
-		int y = tilePosition[i][j].second;    //y=j
+		int x = i; 
+		int y = j; 
 		int nx = x + 1;
 		int ny = y;
 
@@ -91,8 +89,8 @@ void down(int N) {
 }
 void left(int N) {
 	for (int i = 0; i < N; i++) for (int j = 0; j < N; j++) {
-		int x = tilePosition[i][j].first;     //x=i
-		int y = tilePosition[i][j].second;    //y=j
+		int x = i; 
+		int y = j; 
 		int nx = x;
 		int ny = y - 1;
 
@@ -120,7 +118,6 @@ void left(int N) {
 		if (nx >= 0 && nx < N && ny >= 0 && ny < N && tile[nx][ny] == tile[x][y] && flag[nx][ny] == false && flag[x][y] == false) {
 			tile[nx][ny] *= 2;
 			flag[nx][ny] = true;
-			//flag[x][y]=true;
 			tile[x][y] = 0;
 
 			j = 0; //이동한뒤 다시 살펴볼거양
@@ -131,8 +128,8 @@ void left(int N) {
 }
 void right(int N) {
 	for (int i = 0; i < N; i++) for (int j = N - 1; j >= 0; j--) {
-		int x = tilePosition[i][j].first;     //x=i
-		int y = tilePosition[i][j].second;    //y=j
+		int x = i; 
+		int y = j; 
 		int nx = x;
 		int ny = y + 1;
 
@@ -172,7 +169,7 @@ void right(int N) {
 int main(int argc, const char * argv[]) {
 	int T;
 	cin >> T;
-	for (int i = 1; i <= T; i++) {
+	for (int k = 1; k <= T; k++) {
 		int N;
 		string S;
 
@@ -180,16 +177,12 @@ int main(int argc, const char * argv[]) {
 
 		//초기화
 		memset(tile, 0, sizeof(tile));
-		for (int i = 0; i < N; i++) for(int j=0; j<N ; j++){
-			flag[i].push_back(false);
-		}
+	
 
 		//타일 입력받기
 		for (int i = 0; i < N; i++) for (int j = 0; j < N; j++) {
-			int a;
-			cin >> a;
-			tile[i].push_back(a);
-			tilePosition[i].push_back(make_pair(i, j)); //좌표 저장 (i,j)
+			cin >> tile[i][j];
+			flag[i][j] = false;
 		}
 
 		if (S == "up")    up(N);
@@ -198,11 +191,11 @@ int main(int argc, const char * argv[]) {
 		else right(N);
 
 
-		cout << "#" << i << '\n';
+		cout << '#' << k << '\n';
 
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				cout << tile[i][j] << " ";
+				cout << tile[i][j] << ' ';
 			}
 			cout << '\n';
 		}
@@ -211,4 +204,3 @@ int main(int argc, const char * argv[]) {
 	return 0;
 
 }
-
