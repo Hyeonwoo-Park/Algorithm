@@ -1,11 +1,3 @@
-//
-//  main.cpp
-//  6109_game2048
-//
-//  Created by 잉뿌 on 27/03/2019.
-//  Copyright © 2019 잉뿌. All rights reserved.
-//
-
 #include <iostream>
 #include <vector>
 #include <string>
@@ -42,10 +34,7 @@ void up(int N){
                 tile[N-1][y]=0; //마지막 요소를 0으로 채워주자
                 
                 i = 0; //이동한뒤 다시 첨부터 살펴볼거양
-                x=tilePosition[i][j].first;     //x=i
-                y=tilePosition[i][j].second;    //y=j
-                nx=x-1;
-                ny=y;
+                continue;
         }
         //case 3: 부딪히는 타일값이랑 같을때! 그리고 바뀐적없는 타일일때
         if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==tile[x][y] && flag[nx][ny]==false && flag[x][y]==false){
@@ -54,10 +43,7 @@ void up(int N){
             tile[x][y]=0;
             
             i = 0; //이동한뒤 다시 첨부터 살펴볼거양
-            x=tilePosition[i][j].first;     //x=i
-            y=tilePosition[i][j].second;    //y=j
-            nx=x-1;
-            ny=y;
+            continue;
         }else continue; //case 4: 부딪히는 타일값이 0도 아니고 다를때. 또는 범위를 벗어날때. 또는 바뀐적이 있는 타일일때
     }
 }
@@ -85,10 +71,7 @@ void down(int N){
                 tile[0][y]=0; //마지막 요소를 0으로 채워주자
                 
                 i =N-1; //이동한뒤 다시 살펴볼거양
-                x=tilePosition[i][j].first;     //x=i
-                y=tilePosition[i][j].second;    //y=j
-                nx=x+1;
-                ny=y;
+                continue;
         }
         //case 3: 부딪히는 타일값이랑 같을때! 그리고 바뀐적없는 타일일때
         if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==tile[x][y] && flag[nx][ny]==false && flag[x][y]==false){
@@ -97,10 +80,7 @@ void down(int N){
             tile[x][y]=0;
             
             i =N-1; //이동한뒤 다시 살펴볼거양
-            x=tilePosition[i][j].first;     //x=i
-            y=tilePosition[i][j].second;    //y=j
-            nx=x+1;
-            ny=y;
+            continue;
         }else continue; //case 4: 부딪히는 타일값이 0도 아니고 다를때. 또는 범위를 벗어날때. 또는 바뀐적이 있는 타일일때
     }
 }
@@ -129,10 +109,7 @@ void left(int N){
             tile[x][N-1]=0; //마지막 요소를 0으로 채워주자
             
             j=0; //이동한뒤 다시 살펴볼거양
-            x=tilePosition[i][j].first;     //x=i
-            y=tilePosition[i][j].second;    //y=j
-            nx=x;
-            ny=y-1;
+            continue;
         }
         //case 3: 부딪히는 타일값이랑 같을때! 그리고 바뀐적없는 타일일때
         if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==tile[x][y] && flag[nx][ny]==false && flag[x][y]==false){
@@ -142,10 +119,7 @@ void left(int N){
             tile[x][y]=0;
             
             j=0; //이동한뒤 다시 살펴볼거양
-            x=tilePosition[i][j].first;     //x=i
-            y=tilePosition[i][j].second;    //y=j
-            nx=x;
-            ny=y-1;
+            continue;
         }else continue; //case 4: 부딪히는 타일값이 0도 아니고 다를때. 또는 범위를 벗어날때. 또는 바뀐적이 있는 타일일때
     }
 }
@@ -159,7 +133,7 @@ void right(int N){
         //case 1: 현재 타일이 0이면 할 수 있는게 없음
         if(tile[x][y]==0) continue;
         
-        //case 2: 부딪히는 타일이 0일때 한칸씩 아래로 대거이동!
+        //case 2: 부딪히는 타일이 0일때 한칸씩 오른쪽으로 대거이동!
         if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==0){
         
             int tmp_x=nx;
@@ -174,10 +148,7 @@ void right(int N){
             tile[x][0]=0; //마지막 요소를 0으로 채워주자
             
             j =N-1; //이동한뒤 다시 살펴볼거양
-            x=tilePosition[i][j].first;     //x=i
-            y=tilePosition[i][j].second;    //y=j
-            nx=x;
-            ny=y+1;
+            continue;
         }
         //case 3: 부딪히는 타일값이랑 같을때! 그리고 바뀐적없는 타일일때
         if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==tile[x][y] && flag[nx][ny]==false && flag[x][y]==false){
@@ -186,10 +157,7 @@ void right(int N){
             tile[x][y]=0;
             
             j =N-1; //이동한뒤 다시 살펴볼거양
-            x=tilePosition[i][j].first;     //x=i
-            y=tilePosition[i][j].second;    //y=j
-            nx=x;
-            ny=y+1;
+            continue;
         }else continue; //case 4: 부딪히는 타일값이 0도 아니고 다를때. 또는 범위를 벗어날때. 또는 바뀐적이 있는 타일일때
     }
 }
@@ -240,5 +208,3 @@ int main(int argc, const char * argv[]) {
     return 0;
 
 }
-
-
