@@ -1,0 +1,244 @@
+//
+//  main.cpp
+//  6109_game2048
+//
+//  Created by 잉뿌 on 27/03/2019.
+//  Copyright © 2019 잉뿌. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> tile[20];
+vector<bool> flag[20];
+vector<pair<int,int>> tilePosition[20];
+
+void up(int N){
+    for(int j=0 ; j<N ; j++) for(int i=0; i<N ; i++) {
+        int x=tilePosition[i][j].first;     //x=i
+        int y=tilePosition[i][j].second;    //y=j
+        int nx=x-1;
+        int ny=y;
+        
+        //case 1: 현재 타일이 0이면 할 수 있는게 없음
+        if(tile[x][y]==0) continue;
+        
+        //case 2: 부딪히는 타일이 0일때 한칸씩 위로 대거이동!
+        if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==0){
+                int tmp_x=nx;
+                int tmp_y=ny;
+            
+                while(tmp_x<N-1){
+                    tile[tmp_x][tmp_y]=tile[tmp_x+1][tmp_y];
+                    flag[tmp_x][tmp_y]=flag[tmp_x+1][tmp_y];
+                    tmp_x += 1;
+                }
+            
+                tile[N-1][y]=0; //마지막 요소를 0으로 채워주자
+                
+                i = 0; //이동한뒤 다시 첨부터 살펴볼거양
+                x=tilePosition[i][j].first;     //x=i
+                y=tilePosition[i][j].second;    //y=j
+                nx=x-1;
+                ny=y;
+        }
+        //case 3: 부딪히는 타일값이랑 같을때! 그리고 바뀐적없는 타일일때
+        if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==tile[x][y] && flag[nx][ny]==false && flag[x][y]==false){
+            tile[nx][ny] *= 2;
+            flag[nx][ny] = true;
+            tile[x][y]=0;
+            
+            i = 0; //이동한뒤 다시 첨부터 살펴볼거양
+            x=tilePosition[i][j].first;     //x=i
+            y=tilePosition[i][j].second;    //y=j
+            nx=x-1;
+            ny=y;
+        }else continue; //case 4: 부딪히는 타일값이 0도 아니고 다를때. 또는 범위를 벗어날때. 또는 바뀐적이 있는 타일일때
+    }
+}
+void down(int N){
+    for(int j=0 ; j<N ; j++) for(int i=N-1; i>=0 ; i--) {
+        int x=tilePosition[i][j].first;     //x=i
+        int y=tilePosition[i][j].second;    //y=j
+        int nx=x+1;
+        int ny=y;
+        
+        //case 1: 현재 타일이 0이면 할 수 있는게 없음
+        if(tile[x][y]==0) continue;
+        
+        //case 2: 부딪히는 타일이 0일때 한칸씩 아래로 대거이동!
+        if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==0){
+                int tmp_x=nx;
+                int tmp_y=ny;
+                
+                while(tmp_x>0){
+                    tile[tmp_x][tmp_y]=tile[tmp_x-1][tmp_y];
+                    flag[tmp_x][tmp_y]=flag[tmp_x-1][tmp_y];
+                    tmp_x -= 1;
+                }
+                
+                tile[0][y]=0; //마지막 요소를 0으로 채워주자
+                
+                i =N-1; //이동한뒤 다시 살펴볼거양
+                x=tilePosition[i][j].first;     //x=i
+                y=tilePosition[i][j].second;    //y=j
+                nx=x+1;
+                ny=y;
+        }
+        //case 3: 부딪히는 타일값이랑 같을때! 그리고 바뀐적없는 타일일때
+        if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==tile[x][y] && flag[nx][ny]==false && flag[x][y]==false){
+            tile[nx][ny] *= 2;
+            flag[nx][ny] = true;
+            tile[x][y]=0;
+            
+            i =N-1; //이동한뒤 다시 살펴볼거양
+            x=tilePosition[i][j].first;     //x=i
+            y=tilePosition[i][j].second;    //y=j
+            nx=x+1;
+            ny=y;
+        }else continue; //case 4: 부딪히는 타일값이 0도 아니고 다를때. 또는 범위를 벗어날때. 또는 바뀐적이 있는 타일일때
+    }
+}
+void left(int N){
+    for(int i=0; i<N ; i++) for(int j=0 ; j<N ; j++) {
+        int x=tilePosition[i][j].first;     //x=i
+        int y=tilePosition[i][j].second;    //y=j
+        int nx=x;
+        int ny=y-1;
+        
+        //case 1: 현재 타일이 0이면 할 수 있는게 없음
+        if(tile[x][y]==0) continue;
+        
+        //case 2: 부딪히는 타일이 0일때 한칸씩 왼쪽으로 대거이동!
+        if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==0){
+            
+            int tmp_x=nx;
+            int tmp_y=ny;
+            
+            while(tmp_y<N-1){
+                tile[tmp_x][tmp_y]=tile[tmp_x][tmp_y+1];
+                flag[tmp_x][tmp_y]=flag[tmp_x][tmp_y+1];
+                tmp_y += 1;
+            }
+            
+            tile[x][N-1]=0; //마지막 요소를 0으로 채워주자
+            
+            j=0; //이동한뒤 다시 살펴볼거양
+            x=tilePosition[i][j].first;     //x=i
+            y=tilePosition[i][j].second;    //y=j
+            nx=x;
+            ny=y-1;
+        }
+        //case 3: 부딪히는 타일값이랑 같을때! 그리고 바뀐적없는 타일일때
+        if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==tile[x][y] && flag[nx][ny]==false && flag[x][y]==false){
+            tile[nx][ny] *= 2;
+            flag[nx][ny] = true;
+            //flag[x][y]=true;
+            tile[x][y]=0;
+            
+            j=0; //이동한뒤 다시 살펴볼거양
+            x=tilePosition[i][j].first;     //x=i
+            y=tilePosition[i][j].second;    //y=j
+            nx=x;
+            ny=y-1;
+        }else continue; //case 4: 부딪히는 타일값이 0도 아니고 다를때. 또는 범위를 벗어날때. 또는 바뀐적이 있는 타일일때
+    }
+}
+void right(int N){
+    for(int i=0 ; i<N ; i++) for(int j=N-1; j>=0 ; j--) {
+        int x=tilePosition[i][j].first;     //x=i
+        int y=tilePosition[i][j].second;    //y=j
+        int nx=x;
+        int ny=y+1;
+        
+        //case 1: 현재 타일이 0이면 할 수 있는게 없음
+        if(tile[x][y]==0) continue;
+        
+        //case 2: 부딪히는 타일이 0일때 한칸씩 아래로 대거이동!
+        if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==0){
+        
+            int tmp_x=nx;
+            int tmp_y=ny;
+            
+            while(tmp_y>0){
+                tile[tmp_x][tmp_y]=tile[tmp_x][tmp_y-1];
+                flag[tmp_x][tmp_y]=flag[tmp_x][tmp_y-1];
+                tmp_y -= 1;
+            }
+            
+            tile[x][0]=0; //마지막 요소를 0으로 채워주자
+            
+            j =N-1; //이동한뒤 다시 살펴볼거양
+            x=tilePosition[i][j].first;     //x=i
+            y=tilePosition[i][j].second;    //y=j
+            nx=x;
+            ny=y+1;
+        }
+        //case 3: 부딪히는 타일값이랑 같을때! 그리고 바뀐적없는 타일일때
+        if(nx>=0 && nx<N && ny>=0 && ny<N && tile[nx][ny]==tile[x][y] && flag[nx][ny]==false && flag[x][y]==false){
+            tile[nx][ny] *= 2;
+            flag[nx][ny] = true;
+            tile[x][y]=0;
+            
+            j =N-1; //이동한뒤 다시 살펴볼거양
+            x=tilePosition[i][j].first;     //x=i
+            y=tilePosition[i][j].second;    //y=j
+            nx=x;
+            ny=y+1;
+        }else continue; //case 4: 부딪히는 타일값이 0도 아니고 다를때. 또는 범위를 벗어날때. 또는 바뀐적이 있는 타일일때
+    }
+}
+
+int main(int argc, const char * argv[]) {
+
+    cout << "START\n";
+    
+    int T;
+    cin >> T;
+    for(int i=1 ; i<=T ; i++){
+        int N;
+        string S;
+        
+        cin >> N >> S;
+        
+        //초기화
+        memset(tile,0,sizeof(tile));
+
+        for(int i=0 ; i<N ; i++){
+            flag[i].push_back(false);
+        }
+        
+        for(int i=0 ; i<N ; i++) for(int j=0 ; j<N ; j++){
+            int a;
+            cin >> a;
+            tile[i].push_back(a);
+            tilePosition[i].push_back(make_pair(i, j)); //좌표 저장 (i,j)
+            //flag[i].push_back(false);
+        }
+        
+        if(S=="up")    up(N);
+        else if(S=="down")  down(N);
+        else if(S=="left")  left(N);
+        else right(N);
+
+        
+        cout << "#" << i << '\n';
+        
+        for(int i=0 ; i<N ; i++){
+            for(int j=0 ; j<N ; j++){
+                cout << tile[i][j] << " ";
+            }
+            cout << '\n';
+        }
+    }
+    
+    return 0;
+
+}
+
+
