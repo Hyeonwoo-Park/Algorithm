@@ -1,0 +1,33 @@
+#https://www.welcomekakao.com/learn/courses/30/lessons/17684
+
+
+def solution(msg):
+    dic = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    answer = []
+    word = ""
+    word_index = 0
+    nxt_index = word_index + 1
+    
+    while word_index < len(msg) :
+        
+        word = word + msg[word_index]
+        cw = word
+        while nxt_index + 1 < len(msg) :
+            nxt_index = word_index + 1
+            cw = word + msg[nxt_index]
+            if cw in dic :
+                word = cw
+                word_index = nxt_index
+            else :
+                break
+            
+        if word in dic :
+            index = dic.index(word)
+            answer.append(index + 1)
+            if cw not in dic :
+                dic.append(cw)
+            word = ""
+            
+        word_index = word_index + 1
+        
+    return answer
