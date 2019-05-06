@@ -1,0 +1,29 @@
+from sys import stdin
+input = stdin.readline
+M = []
+result = []
+while True :
+    M.append(int(input()))
+    if M[-1] == 0 :
+        break
+       
+result = [[0 for i in range(0,31-j)] for j in range(0,31)]
+result[0] = [1 for i in range(0,31)]
+
+def Check(W,H = 0) :
+    if result[W][H] != 0 :
+        return result[W][H]
+    else :
+        if H == 0 :
+            result[W][H] += Check(W - 1,H + 1)
+            return result[W][H]
+        else : 
+            result[W][H] = Check(W - 1,H + 1) + Check(W,H - 1)
+            return result[W][H]
+
+Check(30)
+
+for N in M :
+    if N == 0 :
+        break
+    print(Check(N))
