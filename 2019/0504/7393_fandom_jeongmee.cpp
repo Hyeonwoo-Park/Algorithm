@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <cstring>
-//내가 푼거 아님;;
+//내가 푼 건 아님..ㅠㅠ
 
 const int mod = 1e9;
 int n, ans, dp[101][10][1025];
