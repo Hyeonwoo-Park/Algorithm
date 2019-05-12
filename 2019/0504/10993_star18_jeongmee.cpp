@@ -6,7 +6,7 @@ int index[12][2];
 char arr[1025][2050];
 
 void movePosition(int n) {
-	
+
 	for (int i = index[n - 1][0] - 1; i >= 0; i--) {
 		for (int j = 0; j < index[n - 1][1]; j++) {
 			if (n % 2) {
@@ -22,7 +22,7 @@ void movePosition(int n) {
 }
 
 void makeTriangle(int n) {
-	
+
 	for (int i = 0; i < index[n][0]; i++) {
 		for (int j = 0; j < index[n][1]; j++) {
 			if (n % 2) {
@@ -55,7 +55,7 @@ int main() {
 
 	int n, i, j;
 	cin >> n;
-	
+
 	arr[0][0] = '*';
 	index[1][0] = 1;
 
@@ -73,13 +73,17 @@ int main() {
 
 	for (i = 0; i < index[n][0]; i++) {
 		if (n % 2) {
-			for (j = 0; j < index[n][1]/2 + i + 1; j++) {
-				cout << arr[i][j];
+			for (j = 0; j < index[n][1] / 2 + i + 1; j++) {
+				if(arr[i][j] == '*')
+					cout << arr[i][j];
+				else cout << ' ';
 			}
 		}
 		else {
 			for (j = 0; j < index[n][1] - i; j++) {
-				cout << arr[i][j];
+				if (arr[i][j] == '*')
+					cout << arr[i][j];
+				else cout << ' ';
 			}
 		}
 		cout << '\n';
