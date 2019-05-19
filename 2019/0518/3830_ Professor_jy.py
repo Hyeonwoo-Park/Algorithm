@@ -84,9 +84,10 @@ def main() :
                   kinds_list[q[1]] = kinds_list[q[0]] + q[2]
                else :
                   if base_index[q[1]] not in connect[base_index[q[0]]] :
-                     connect[base_index[q[0]]][base_index[q[1]]] = kinds_list[q[0]] + q[2]
-                     connect[base_index[q[1]]][base_index[q[0]]] = - q[2] - kinds_list[q[0]]
+                     c = kinds_list[q[0]] + q[2]
+                     connect[base_index[q[0]]][base_index[q[1]]] = c
+                     connect[base_index[q[1]]][base_index[q[0]]] = - c
 
 
 main()
-#
+#Time over T.T
