@@ -1,9 +1,13 @@
+
+#Time over T.T
+
 import sys
 input = sys.stdin.readline
 
-connect = {}
+connect = dict()
 
 def bfs(graph, start_node):
+   global connect
    visit = dict()
    queue = list()
 
@@ -13,7 +17,9 @@ def bfs(graph, start_node):
       node = queue.pop(0)
       if node[1] not in visit.keys():
          if node[0] in visit.keys() :
-            visit[node[1]] = visit[node[0]] + node[2]
+            cost = visit[node[0]] + node[2]
+            visit[node[1]] = cost
+            connect[node[1]][start_node] = -cost
          else :
             visit[node[1]] = node[2]
          for i in list( map( list ,graph[node[1]].items() ) ) :
@@ -40,9 +46,7 @@ def main() :
       index = 0
       kinds_list = [ 0 for i in range(kinds)]
       base_index = [ -1 for i in range(kinds)]
-      connect = {}
-      for i in range(kinds//2) :
-         connect[i] = {}
+      connect.clear()
          
       for _ in range(Num) :
          q = input().split()
@@ -59,6 +63,8 @@ def main() :
                else :
                   if base_index[q[1]] in connect[base_index[q[0]]] :
                      print(kinds_list[q[1]] - kinds_list[q[0]] + connect[base_index[q[0]]][base_index[q[1]]])
+                  elif base_index[q[0]] in connect[base_index[q[1]]] :
+                     print(kinds_list[q[1]] - kinds_list[q[0]] - connect[base_index[q[0]]][base_index[q[1]]])
                   else :
                      money, cango = check(connect , base_index[q[0]] ,  base_index[q[1]]  )
                      if cango == True:
@@ -71,6 +77,8 @@ def main() :
                
             if base_index[q[0]] == base_index[q[1]] :
                if base_index[q[0]] == -1 :
+                  if index not in connect.keys() :
+                     connect[index] = {}
                   base_index[q[1]],base_index[q[0]] = index,index
                   index = index + 1
                   kinds_list[q[1]] = kinds_list[q[0]] + q[2]
@@ -90,4 +98,3 @@ def main() :
 
 
 main()
-#Time over T.T
