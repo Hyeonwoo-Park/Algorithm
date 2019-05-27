@@ -1,4 +1,4 @@
-#
+#메모리 초과
 #https://www.acmicpc.net/problem/2370
 import sys
 input = sys.stdin.readline
