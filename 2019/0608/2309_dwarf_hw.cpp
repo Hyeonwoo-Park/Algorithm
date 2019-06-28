@@ -19,8 +19,4 @@ int main(){
         if(p[i] == 1)
             cout<<dwarf[i]<<'\n';
     }
-
-
-
-
 }
